@@ -46,9 +46,10 @@ func RegisterUsers(w http.ResponseWriter, r *http.Request) {
 
 	// Insert the user into the users collection
 	result, err := collection.InsertOne(ctx, bson.M{
-		"username":   user.Nama,
-		"password":   user.Password,
-		"email":      user.Email,
+		"nama":   user.Nama,
+		"email":   user.Email,
+		"alamat":      user.Alamat,
+		"password":      user.Password,
 		"created_at": user.CreatedAt,
 		"updated_at": user.UpdatedAt,
 	})
