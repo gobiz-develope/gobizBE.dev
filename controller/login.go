@@ -5,12 +5,16 @@ import (
 	"encoding/json"
 	"gobizdevelop/config"
 	"gobizdevelop/model"
+	"log"
 	"net/http"
 	"time"
 
+	"github.com/o1egl/paseto"
 	"go.mongodb.org/mongo-driver/bson"
 	"golang.org/x/crypto/bcrypt"
 )
+
+var symmetricKey = []byte("this_is_a_32_byte_secret_key_123")
 
 func LoginUsers(w http.ResponseWriter, r *http.Request) {
 	var credentials model.Users
@@ -42,12 +46,33 @@ func LoginUsers(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// If the password is correct, create a response
+	// Generate PASETO token
+	now := time.Now()
+	expiration := now.Add(24 * time.Hour) // Token valid for 24 hours
+
+	token := paseto.NewV2() // Gunakan Paseto V2
+	jsonToken := paseto.JSONToken{
+		Subject:    user.ID.Hex(),
+		IssuedAt:   now,
+		Expiration: expiration,
+	}
+	footer := "some-footer-info"
+
+	// Encrypt the token using the symmetric key
+	encryptedToken, err := token.Encrypt(symmetricKey, jsonToken, footer)
+	if err != nil {
+		log.Println("Error generating token:", err, "|", "metric:", symmetricKey, "|", "jsontoken:", jsonToken) // Logging the error
+		http.Error(w, "Failed to generate token", http.StatusInternalServerError)
+		return
+	}
+
+	// Send the response with the token
 	response := map[string]interface{}{
 		"message":  "Login successful",
-		"user_id":  user.ID,
+		"user_id":  user.ID.Hex(),
 		"email":    user.Email,
 		"username": user.Nama,
+		"token":    encryptedToken,
 	}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(response)
