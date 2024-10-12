@@ -12,6 +12,7 @@ type Users struct {
 	No_Telp   string             `bson:"no_telp,omitempty" json:"no_telp,omitempty"`
 	Email     string             `bson:"email,omitempty" json:"email,omitempty"`
 	Alamat    string             `bson:"alamat,omitempty" json:"alamat,omitempty"`
+	Role    	string             `bson:"role,omitempty" json:"role,omitempty"`
 	Password  string             `bson:"password,omitempty" json:"password,omitempty"`
 	CreatedAt time.Time          `bson:"createdAt,omitempty" json:"createdAt,omitempty"`
 	UpdatedAt time.Time          `bson:"updatedAt,omitempty" json:"updatedAt,omitempty"`

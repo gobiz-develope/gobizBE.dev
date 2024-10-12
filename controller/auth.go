@@ -46,13 +46,16 @@ func RegisterUsers(w http.ResponseWriter, r *http.Request) {
 
 	// Insert the user into the users collection
 	result, err := collection.InsertOne(ctx, bson.M{
-		"nama":   user.Nama,
-		"email":   user.Email,
-		"alamat":      user.Alamat,
-		"password":      user.Password,
+		"nama"			:	user.Nama,
+		"no_telp"		: user.No_Telp,
+		"email"			: user.Email,
+		"alamat"		: user.Alamat,
+		"role"			: user.Role,
+		"password"	: user.Password,
 		"created_at": user.CreatedAt,
 		"updated_at": user.UpdatedAt,
 	})
+	
 	if err != nil {
 		http.Error(w, "Failed to insert user", http.StatusInternalServerError)
 		return
