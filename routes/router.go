@@ -3,6 +3,7 @@ package routes
 import (
 	"gobizdevelop/controller/auth"
 	"gobizdevelop/controller/market"
+	"gobizdevelop/controller/menu"
 	"gobizdevelop/controller/profile"
 
 	"github.com/gorilla/mux"
@@ -20,8 +21,11 @@ func InitializeRoutes() *mux.Router {
 	router.HandleFunc("/profile-update", profile.UpdateUser).Methods("POST")
 
 	router.HandleFunc("/add-market", market.AddMarket).Methods("POST")
-	router.HandleFunc("/toko/{slug}/menu", market.GetMenuByMarket).Methods("GET")
-	router.HandleFunc("/toko/menu/update", market.UpdateMenu).Methods("PUT")
+
+	router.HandleFunc("/toko/menu", menu.AddMenuToToko).Methods("POST")
+	router.HandleFunc("/toko/{slug}/menu", menu.GetMenuByMarket).Methods("GET")
+	router.HandleFunc("/toko/menu/update", menu.UpdateMenu).Methods("PUT")
+	router.HandleFunc("/toko/{slug}/menu", menu.DeleteMenu).Methods("DELETE")
 
 	return router
 }
