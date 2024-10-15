@@ -18,8 +18,10 @@ func InitializeRoutes() *mux.Router {
 
 	router.HandleFunc("/profile", profile.GetUsers).Methods("POST")
 	router.HandleFunc("/profile-update", profile.UpdateUser).Methods("POST")
-	
+
 	router.HandleFunc("/add-market", market.AddMarket).Methods("POST")
+	router.HandleFunc("/toko/{slug}/menu", market.GetMenuByMarket).Methods("GET")
+	router.HandleFunc("/toko/menu/update", market.UpdateMenu).Methods("PUT")
 
 	return router
 }
