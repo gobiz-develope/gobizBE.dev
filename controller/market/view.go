@@ -16,7 +16,7 @@ import (
 // Fungsi untuk mendapatkan daftar toko (market) saja
 func GetMarkets(w http.ResponseWriter, r *http.Request) {
 	// Koneksi ke koleksi MongoDB toko
-	collection := config.Mongoconn.Collection("toko")
+	collection := config.Mongoconn.Collection("market")
 
 	// Membuat context dengan timeout
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -62,8 +62,8 @@ func GetMarketByID(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Koneksi ke koleksi MongoDB toko
-	collection := config.Mongoconn.Collection("toko")
+	// Koneksi ke koleksi MongoDB market
+	collection := config.Mongoconn.Collection("market")
 
 	// Membuat context dengan timeout
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
